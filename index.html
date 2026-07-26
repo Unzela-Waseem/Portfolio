@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Unzela Portfolio - Software Developer</title>
+ <script src="https://cdn.tailwindcss.com"></script>
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ovo&display=swap"
+ rel="stylesheet" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+ <style>
+ /* ── reset & base ── */
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+
+ body {
+ font-family: 'Outfit', sans-serif;
+ scroll-behavior: smooth;
+ background: #fafaff;
+ overflow-x: hidden;
+ }
+
+ .font-Ovo {
+ font-family: 'Ovo', serif;
+ }
+
+ /* ── keyframes ── */
+ @keyframes spin-slow {
+ to {
+ transform: rotate(360deg);
+ }
+ }
+
+ @keyframes float {
+
+ 0%,
+ 100% {
+ transform: translateY(0px);
+ }
+
+ 50% {
+ transform: translateY(-20px);
+ }
+ }
+
+ @keyframes fadeInUp {
+ from {
+ opacity: 0;
+ transform: translateY(30px);
+ }
+
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+
+ @keyframes pulse {
+
+ 0%,
+ 100% {
+ opacity: 1;
+ }
+
+ 50% {
+ opacity: 0.6;
+ }
+ }
+
+ @keyframes gradientShift {
+ 0% {
+ background-position: 0% 50%;
+ }
+
+ 50% {
+ background-position: 100% 50%;
+ }
+
+ 100% {
+ background-position: 0% 50%;
+ }
+ }
+
+ @keyframes avatarEntrance {
+ 0% {
+ opacity: 0;
+ transform: scale(0.6) translateY(30px);
+ }
+
+ 70% {
+ transform: scale(1.08) translateY(-4px);
+ }
+
+ 100% {
+ opacity: 1;
+ transform: scale(1) translateY(0);
+ }
+ }
+
+ @keyframes glowPulse {
+
+ 0%,
+ 100% {
+ box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.5), 0 8px 32px rgba(124, 58, 237, 0.3);
+ }
+
+ 50% {
+ box-shadow: 0 0 0 14px rgba(168, 85, 247, 0), 0 8px 40px rgba(249, 115, 22, 0.4);
+ }
+ }
+
+ @keyframes slideInLeft {
+ from {
+ opacity: 0;
+ transform: translateX(-40px);
+ }
+
+ to {
+ opacity: 1;
+ transform: translateX(0);
+ }
+ }
+
+ @keyframes wordReveal {
+ to {
+ opacity: 1;
+ filter: blur(0);
+ transform: translateY(0);
+ }
+ }
+
+ @keyframes fadeUp {
+ from {
+ opacity: 0;
+ transform: translateY(22px);
+ }
+
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+
+ .animate-spin-slow {
+ animation: spin-slow 20s linear infinite;
+ }
+
+ .animate-float {
+ animation: float 6s ease-in-out infinite;
+ }
+
+ .animate-fade-in-up {
+ opacity: 0;
+ animation: fadeInUp 0.8s ease-out forwards;
+ }
+
+ .animate-pulse-slow {
+ animation: pulse 3s infinite;
+ }
+
+ .animate-gradient {
+ background-size: 200% 200%;
+ animation: gradientShift 5s ease infinite;
+ }
+
+ .grid-cols-auto {
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ }
+
+ /* ── hero canvas ── */
+ #heroCanvas {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ pointer-events: none;
+ z-index: -5;
+ }
+
+ .hero-gradient-blob {
+ position: fixed;
+ top: 0;
+ right: 0;
+ width: 91.666%;
+ z-index: -10;
+ transform: translateY(-80%);
+ }
+
+ .hero-gradient-blob>div {
+ width: 100%;
+ height: 24rem;
+ background: linear-gradient(135deg, #e9d5ff, #fce7f3, #fed7aa);
+ opacity: 0.6;
+ filter: blur(64px);
+ background-size: 200% 200%;
+ animation: gradientShift 5s ease infinite;
+ }
+
+ .hero-avatar {
+ opacity: 0;
+ animation: avatarEntrance 0.9s cubic-bezier(.34, 1.56, .64, 1) 0.1s forwards,
+ float 6s ease-in-out 1.2s infinite,
+ glowPulse 3s ease-in-out 1.2s infinite;
+ }
+
+ .hero-greeting {
+ opacity: 0;
+ animation: slideInLeft 0.7s cubic-bezier(.22, 1, .36, 1) 0.85s forwards;
+ }
+
+ .hero-h1-word {
+ display: inline-block;
+ opacity: 0;
+ filter: blur(6px);
+ transform: translateY(28px);
+ animation: wordReveal 0.6s cubic-bezier(.22, 1, .36, 1) forwards;
+ }
+
+ .hero-para {
+ opacity: 0;
+ animation: fadeUp 0.7s ease 1.6s forwards;
+ }
+
+ .hero-btn-wrap {
+ opacity: 0;
+ animation: fadeUp 0.7s ease 1.85s forwards;
+ }
+
+ .hero-btn-primary {
+ transition: transform 0.3s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.3s ease;
+ }
+
+ .hero-btn-primary:hover {
+ transform: translateY(-4px) scale(1.03);
+ box-shadow: 0 12px 28px rgba(124, 58, 237, 0.35);
+ }
+
+ .hero-btn-secondary {
+ transition: transform 0.3s cubic-bezier(.34, 1.56, .64, 1), background 0.2s;
+ }
+
+ .hero-btn-secondary:hover {
+ transform: translateY(-4px);
+ }
+
+ /* ── hover-lift ── */
+ .hover-lift {
+ transition: transform .4s cubic-bezier(.175, .885, .32, 1.275), box-shadow .4s ease;
+ }
+
+ .hover-lift:hover {
+ transform: translateY(-10px);
+ box-shadow: 0 20px 40px rgba(0, 0, 0, .12);
+ }
+
+ .icon-float {
+ animation: float 4s ease-in-out infinite;
+ }
+
+ .video-zoom {
+ transition: transform .5s ease;
+ }
+
+ .group:hover .video-zoom {
+ transform: scale(1.05);
+ }
+
+ /* ── contact ── */
+ .contact-section {
+ background: linear-gradient(135deg, #f9f9f9 0%, #f0f4ff 100%);
+ padding: 80px 0;
+ }
+
+ .container {
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 0 20px;
+ }
+
+ .section-title {
+ text-align: center;
+ font-size: clamp(2rem, 6vw, 3.5rem);
+ margin-bottom: 1rem;
+ font-family: 'Ovo', serif;
+ color: #1e1e2f;
+ }
+
+ .section-subtitle {
+ text-align: center;
+ color: #555;
+ max-width: 600px;
+ margin: 0 auto 60px;
+ font-size: 1.1rem;
+ }
+
+ .contact-container {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 30px;
+ background: white;
+ border-radius: 24px;
+ overflow: hidden;
+ box-shadow: 0 20px 60px rgba(0, 0, 0, .08);
+ }
+
+ .contact-form {
+ flex: 1 1 300px;
+ padding: 30px 24px;
+ background: white;
+ }
+
+ .contact-info {
+ flex: 1 1 300px;
+ padding: 30px 24px;
+ background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
+ color: white;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .contact-info::before {
+ content: "";
+ position: absolute;
+ inset: 0;
+ background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+ }
+
+ .form-group {
+ margin-bottom: 20px;
+ }
+
+ .form-group input,
+ .form-group textarea {
+ width: 100%;
+ padding: 16px 18px;
+ border: 2px solid #eaeaea;
+ border-radius: 12px;
+ font-size: 16px;
+ font-family: 'Outfit', sans-serif;
+ transition: all .3s ease;
+ background: #f9f9f9;
+ }
+
+ .form-group input:focus,
+ .form-group textarea:focus {
+ outline: none;
+ border-color: #996edd;
+ background: white;
+ box-shadow: 0 5px 15px rgba(123, 47, 247, .1);
+ }
+
+ .form-group textarea {
+ min-height: 150px;
+ resize: vertical;
+ }
+
+ .submit-btn {
+ background: linear-gradient(135deg, #8d59e0 0%, #843a6b 100%);
+ color: white;
+ border: none;
+ padding: 16px 30px;
+ border-radius: 12px;
+ font-size: 16px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: all .4s ease;
+ width: 100%;
+ font-family: 'Outfit', sans-serif;
+ letter-spacing: 1px;
+ }
+
+ .submit-btn:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 10px 25px rgba(123, 47, 247, .3);
+ }
+
+ .contact-info h3 {
+ font-size: clamp(1.6rem, 4vw, 2.2rem);
+ margin-bottom: 10px;
+ font-family: 'Ovo', serif;
+ position: relative;
+ z-index: 1;
+ }
+
+ .contact-info p {
+ font-size: 1rem;
+ margin-bottom: 30px;
+ opacity: .9;
+ position: relative;
+ z-index: 1;
+ }
+
+ .contact-item {
+ margin-bottom: 24px;
+ position: relative;
+ z-index: 1;
+ padding-left: 36px;
+ }
+
+ .contact-item h4 {
+ font-size: 0.95rem;
+ margin-bottom: 4px;
+ opacity: .8;
+ font-weight: 500;
+ }
+
+ .contact-item p {
+ font-size: 1.1rem;
+ margin-bottom: 0;
+ font-weight: 600;
+ }
+
+ .contact-item a {
+ color: white;
+ text-decoration: none;
+ transition: opacity .3s;
+ }
+
+ .contact-item a:hover {
+ opacity: .8;
+ }
+
+ .social-links {
+ display: flex;
+ gap: 12px;
+ margin-top: 30px;
+ position: relative;
+ z-index: 1;
+ flex-wrap: wrap;
+ }
+
+ .social-links a {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 42px;
+ height: 42px;
+ background: rgba(255, 255, 255, .15);
+ border-radius: 50%;
+ color: white;
+ font-size: 17px;
+ transition: all .3s ease;
+ }
+
+ .social-links a:hover {
+ background: white;
+ color: #7b2ff7;
+ transform: translateY(-5px) scale(1.1);
+ }
+
+ .floating-element {
+ position: absolute;
+ border-radius: 50%;
+ opacity: .1;
+ z-index: 0;
+ }
+
+ .floating-element-1 {
+ width: 100px;
+ height: 100px;
+ background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
+ top: 10%;
+ left: 5%;
+ animation: float 8s ease-in-out infinite;
+ }
+
+ .floating-element-2 {
+ width: 70px;
+ height: 70px;
+ background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+ bottom: 20%;
+ right: 10%;
+ animation: float 10s ease-in-out infinite reverse;
+ }
+
+ @media (min-width: 768px) {
+ .contact-form {
+ padding: 50px;
+ }
+
+ .contact-info {
+ padding: 50px;
+ }
+ }
+
+ @media (max-width: 767px) {
+ .contact-container {
+ gap: 20px;
+ border-radius: 16px;
+ }
+
+ .contact-form,
+ .contact-info {
+ padding: 24px 18px;
+ }
+
+ .contact-item {
+ padding-left: 28px;
+ }
+ }
+
+ /* ── skill items ── */
+ .skill-item {
+ opacity: 0;
+ transform: translateY(30px);
+ transition: opacity 0.7s ease, transform 0.7s ease;
+ }
+
+ .skill-item.visible {
+ opacity: 1;
+ transform: translateY(0);
+ }
+
+ /* ── navbar ── */
+ #navbar {
+ background: rgba(255, 255, 255, 0.78);
+ backdrop-filter: blur(16px) saturate(180%);
+ -webkit-backdrop-filter: blur(16px) saturate(180%);
+ border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+ box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+ transition: all 0.25s ease;
+ padding: 12px 16px;
+ }
+
+ @media (min-width: 768px) {
+ #navbar {
+ padding: 16px 32px;
+ }
+ }
+
+ @media (min-width: 1024px) {
+ #navbar {
+ padding: 16px 5%;
+ }
+ }
+
+ #navbar .nav-link {
+ position: relative;
+ font-weight: 500;
+ color: #1e1e2f;
+ transition: color 0.2s;
+ font-size: 0.95rem;
+ }
+
+ #navbar .nav-link::after {
+ content: '';
+ position: absolute;
+ left: 0;
+ bottom: -4px;
+ width: 0%;
+ height: 2.5px;
+ background: linear-gradient(90deg, #a855f7, #f97316);
+ transition: width 0.3s ease;
+ border-radius: 4px;
+ }
+
+ #navbar .nav-link:hover {
+ color: #7c3aed;
+ }
+
+ #navbar .nav-link:hover::after {
+ width: 100%;
+ }
+
+ #navbar .nav-cta {
+ background: linear-gradient(135deg, #7c3aed, #f97316);
+ color: white;
+ padding: 6px 18px;
+ border-radius: 40px;
+ font-weight: 500;
+ font-size: 0.9rem;
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+ white-space: nowrap;
+ }
+
+ #navbar .nav-cta:hover {
+ transform: translateY(-2px) scale(1.02);
+ box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+ }
+
+ #mobileMenu {
+ background: rgba(255, 255, 255, 0.95);
+ backdrop-filter: blur(16px);
+ -webkit-backdrop-filter: blur(16px);
+ border-left: 1px solid rgba(0, 0, 0, 0.04);
+ box-shadow: -8px 0 40px rgba(0, 0, 0, 0.05);
+ padding-top: 70px;
+ transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+ }
+
+ #mobileMenu a {
+ font-size: 1.1rem;
+ font-weight: 500;
+ color: #1e1e2f;
+ padding: 8px 0;
+ border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+ transition: color 0.2s, padding-left 0.2s;
+ }
+
+ #mobileMenu a:hover {
+ color: #7c3aed;
+ padding-left: 8px;
+ }
+
+ .menu-toggle {
+ background: rgba(255, 255, 255, 0.6);
+ backdrop-filter: blur(4px);
+ border-radius: 40px;
+ padding: 6px 10px;
+ border: 1px solid rgba(0, 0, 0, 0.04);
+ transition: all 0.2s;
+ }
+
+ .menu-toggle:hover {
+ background: rgba(255, 255, 255, 0.9);
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+ }
+
+ /* ── responsive tweaks ── */
+ @media (max-width: 640px) {
+ .hero-avatar {
+ width: 80px;
+ height: 80px;
+ font-size: 2.5rem;
+ }
+
+ .hero-greeting {
+ font-size: 1.1rem;
+ }
+
+ #heroTitle {
+ font-size: 1.8rem !important;
+ line-height: 1.3;
+ }
+
+ .hero-para {
+ font-size: 0.95rem;
+ padding: 0 10px;
+ }
+
+ .hero-btn-wrap a {
+ padding: 10px 24px;
+ font-size: 0.95rem;
+ }
+
+ .section-title {
+ font-size: 2rem;
+ }
+
+ #about .text-5xl,
+ #education .text-5xl,
+ #work .text-5xl,
+ #videos .text-5xl {
+ font-size: 2.2rem !important;
+ }
+
+ #about .w-64 {
+ width: 160px;
+ height: 160px;
+ }
+
+ #about .sm\:w-80 {
+ width: 200px !important;
+ height: 200px !important;
+ }
+
+ #about .text-8xl {
+ font-size: 4rem;
+ }
+
+ .grid-cols-auto {
+ grid-template-columns: 1fr;
+ }
+
+ .contact-section {
+ padding: 50px 0;
+ }
+
+ .contact-info h3 {
+ font-size: 1.6rem;
+ }
+
+ #videos .grid-cols-1.md\:grid-cols-2 {
+ grid-template-columns: 1fr;
+ }
+
+ #videos .max-w-\[300px\] {
+ max-width: 100%;
+ }
+
+ footer .grid-cols-1.md\:grid-cols-4 {
+ grid-template-columns: 1fr;
+ gap: 30px;
+ }
+ }
+
+ @media (min-width: 641px) and (max-width: 1023px) {
+ #heroTitle {
+ font-size: 3rem !important;
+ }
+
+ .hero-avatar {
+ width: 110px;
+ height: 110px;
+ font-size: 3.5rem;
+ }
+
+ #about .w-64 {
+ width: 200px;
+ height: 200px;
+ }
+
+ #about .sm\:w-80 {
+ width: 240px !important;
+ height: 240px !important;
+ }
+
+ #about .text-8xl {
+ font-size: 5rem;
+ }
+ }
+
+ @media (max-width: 480px) {
+ #navbar .nav-cta {
+ padding: 4px 12px;
+ font-size: 0.75rem;
+ }
+
+ #mobileMenu {
+ width: 75%;
+ }
+ }
+ </style>
+</head>
+
+<body>
+
+ <!-- particle canvas -->
+ <canvas id="heroCanvas"></canvas>
+
+ <!-- background blob -->
+ <div class="hero-gradient-blob">
+ <div></div>
+ </div>
+
+ <!-- ═══════ NAVBAR ═══════ -->
+ <nav id="navbar" class="w-full fixed top-0 left-0 flex items-center justify-between z-[999]">
+ <a href="#top"
+ class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent tracking-tight">
+ Unzela
+ </a>
+
+ <ul class="hidden md:flex items-center gap-2 lg:gap-4 xl:gap-6 font-Ovo">
+ <li><a class="nav-link px-2 py-1" href="#top">Home</a></li>
+ <li><a class="nav-link px-2 py-1" href="#about">About</a></li>
+ <li><a class="nav-link px-2 py-1" href="#education">Education</a></li>
+ <li><a class="nav-link px-2 py-1" href="#work">Work</a></li>
+ <li><a class="nav-link px-2 py-1" href="#videos">Demos</a></li>
+ </ul>
+
+ <div class="flex items-center gap-2 sm:gap-3">
+ <a href="#contact" class="hidden lg:inline-block nav-cta text-sm font-Ovo">
+ Contact <span class="ml-1">→</span>
+ </a>
+ <button class="md:hidden menu-toggle flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10"
+ onclick="openMenu()" aria-label="Open menu">
+ <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2"
+ viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+ </svg>
+ </button>
+ </div>
+
+ <!-- mobile menu -->
+ <ul id="mobileMenu"
+ class="fixed flex flex-col gap-2 px-6 py-20 -right-72 top-0 bottom-0 w-64 z-[999] h-screen transition-all duration-500 font-Ovo">
+ <button class="absolute right-4 top-4 p-2 rounded-full hover:bg-black/5 transition" onclick="closeMenu()"
+ aria-label="Close menu">
+ <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+ </svg>
+ </button>
+ <li><a href="#top" onclick="closeMenu()">🏠 Home</a></li>
+ <li><a href="#about" onclick="closeMenu()">👤 About</a></li>
+ <li><a href="#education" onclick="closeMenu()">📚 Education</a></li>
+ <li><a href="#work" onclick="closeMenu()">💼 Work</a></li>
+ <li><a href="#videos" onclick="closeMenu()">🎬 Demos</a></li>
+ <li class="mt-3"><a href="#contact" onclick="closeMenu()"
+ class="inline-block w-full text-center bg-gradient-to-r from-purple-600 to-orange-500 text-white px-4 py-2.5 rounded-full font-semibold shadow-md text-sm">Contact</a>
+ </li>
+ </ul>
+ </nav>
+
+ <!-- ═══════ HERO ═══════ -->
+ <div
+ class="w-11/12 max-w-3xl text-center mx-auto min-h-screen flex flex-col items-center justify-center gap-3 pt-20 pb-10">
+ <div
+ class="hero-avatar w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-purple-400 to-orange-400 flex items-center justify-center text-white text-4xl sm:text-5xl font-bold shadow-xl hover-lift">
+ U
+ </div>
+
+ <h3 class="hero-greeting flex items-center gap-2 text-lg sm:text-xl md:text-2xl font-Ovo">Hi! I'm Unzela <span
+ class="text-xl sm:text-2xl animate-pulse-slow">👋</span></h3>
+
+ <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-[66px] font-Ovo leading-tight px-2" id="heroTitle"></h1>
+
+ <p class="hero-para max-w-2xl mx-auto font-Ovo text-gray-700 text-sm sm:text-base px-3">I am a passionate
+ software developer specializing in modern web and mobile applications, bringing ideas to life with React,
+ Node.js, and Flutter.</p>
+
+ <div class="hero-btn-wrap flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-3 w-full sm:w-auto px-4">
+ <a href="#contact"
+ class="hero-btn-primary w-full sm:w-auto px-6 sm:px-10 py-2.5 border rounded-full bg-gradient-to-r from-purple-600 to-orange-500 text-white flex items-center justify-center gap-2 shadow-md font-medium text-sm sm:text-base">Contact
+ me <span>→</span></a>
+ <a href="#education"
+ class="hero-btn-secondary w-full sm:w-auto px-6 sm:px-10 py-2.5 rounded-full border border-gray-300 hover:bg-gray-50/80 flex items-center justify-center gap-2 bg-white/70 shadow-sm font-medium text-sm sm:text-base">Education
+ <span>↓</span></a>
+ </div>
+ </div>
+
+ <!-- ═══════ ABOUT ═══════ -->
+ <div id="about" class="w-full px-[6%] sm:px-[10%] py-12 sm:py-16 scroll-mt-20 bg-white/50">
+ <h4 class="text-center mb-2 text-base sm:text-lg font-Ovo animate-fade-in-up">Introduction</h4>
+ <h2 class="text-center text-3xl sm:text-4xl md:text-5xl font-Ovo animate-fade-in-up">About me</h2>
+ <div class="flex w-full flex-col lg:flex-row items-center gap-12 sm:gap-20 my-12 sm:my-20">
+ <div class="max-w-max mx-auto relative">
+ <div
+ class="w-44 sm:w-56 md:w-64 lg:w-72 h-44 sm:h-56 md:h-64 lg:h-72 rounded-3xl bg-gradient-to-br from-purple-400 to-orange-400 flex items-center justify-center text-white text-6xl sm:text-7xl md:text-8xl font-bold animate-float shadow-2xl">
+ U</div>
+ <div
+ class="bg-white w-1/2 aspect-square absolute right-0 bottom-0 rounded-full translate-x-1/4 translate-y-1/3 shadow-[0_4px_55px_rgba(149,0,162,0.15)] flex items-center justify-center">
+ <div class="w-full h-full rounded-full border-8 border-dashed border-purple-300 animate-spin-slow">
+ </div>
+ <div
+ class="w-1/4 h-1/4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-purple-600 to-orange-500 rounded-lg flex items-center justify-center text-white text-lg sm:text-2xl icon-float">
+ 💻</div>
+ </div>
+ </div>
+ <div class="flex-1 w-full">
+ <p class="mb-8 sm:mb-10 max-w-2xl font-Ovo animate-fade-in-up text-gray-700 text-sm sm:text-base">I am a
+ dedicated Software Developer with strong expertise in full-stack development, mobile app
+ development, and UI/UX design. Currently pursuing my Diploma in Software Engineering while building
+ practical projects and expanding my technical skillset across modern stacks like MERN and Flutter.
+ </p>
+ <ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-2xl">
+ <li class="border border-gray-200 rounded-xl p-4 sm:p-6 cursor-pointer hover:bg-slate-50 hover:-translate-y-1 duration-500 hover:shadow-lg hover-lift skill-item"
+ style="animation-delay:0.1s">
+ <div class="text-2xl sm:text-3xl mb-2 sm:mb-3 icon-float">💻</div>
+ <h3 class="my-3 sm:my-4 font-semibold text-gray-700 text-sm sm:text-base">Languages</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">HTML, CSS, JavaScript, React.js, Node.js, Express,
+ MongoDB, PHP, Flutter, SQL</p>
+ </li>
+ <li class="border border-gray-200 rounded-xl p-4 sm:p-6 cursor-pointer hover:bg-slate-50 hover:-translate-y-1 duration-500 hover:shadow-lg hover-lift skill-item"
+ style="animation-delay:0.2s">
+ <div class="text-2xl sm:text-3xl mb-2 sm:mb-3 icon-float">🎓</div>
+ <h3 class="my-3 sm:my-4 font-semibold text-gray-700 text-sm sm:text-base">Education</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">Diploma in Software Engineering</p>
+ </li>
+ <li class="border border-gray-200 rounded-xl p-4 sm:p-6 cursor-pointer hover:bg-slate-50 hover:-translate-y-1 duration-500 hover:shadow-lg hover-lift skill-item"
+ style="animation-delay:0.3s">
+ <div class="text-2xl sm:text-3xl mb-2 sm:mb-3 icon-float">🎨</div>
+ <h3 class="my-3 sm:my-4 font-semibold text-gray-700 text-sm sm:text-base">Projects</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">Build mobile and full-stack web applications
+ focusing on robust backends & clean UI.</p>
+ </li>
+ </ul>
+ <h4 class="my-5 sm:my-6 text-gray-700 font-Ovo animate-fade-in-up text-sm sm:text-base">Technologies I
+ work with</h4>
+ <ul class="flex items-center gap-2 sm:gap-3 flex-wrap">
+ <li class="flex items-center justify-center w-10 sm:w-12 md:w-14 aspect-square border border-gray-200 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-white text-lg sm:text-2xl hover-lift icon-float"
+ title="React.js">⚛️</li>
+ <li class="flex items-center justify-center w-10 sm:w-12 md:w-14 aspect-square border border-gray-200 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-white text-lg sm:text-2xl hover-lift icon-float"
+ title="Node.js">🟩</li>
+ <li class="flex items-center justify-center w-10 sm:w-12 md:w-14 aspect-square border border-gray-200 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-white text-lg sm:text-2xl hover-lift icon-float"
+ title="Flutter">📱</li>
+ <li class="flex items-center justify-center w-10 sm:w-12 md:w-14 aspect-square border border-gray-200 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-white text-lg sm:text-2xl hover-lift icon-float"
+ title="Databases">🗄️</li>
+ <li class="flex items-center justify-center w-10 sm:w-12 md:w-14 aspect-square border border-gray-200 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-white text-lg sm:text-2xl hover-lift icon-float"
+ title="UI/UX Design">🎨</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <!-- ═══════ EDUCATION ═══════ -->
+ <div id="education" class="w-full px-[6%] sm:px-[10%] py-12 sm:py-16 scroll-mt-20 bg-slate-50/80">
+ <h4 class="text-center mb-2 text-base sm:text-lg font-Ovo animate-fade-in-up">My Journey</h4>
+ <h2 class="text-center text-3xl sm:text-4xl md:text-5xl font-Ovo animate-fade-in-up">Education</h2>
+ <p
+ class="text-center max-w-2xl mx-auto mt-4 sm:mt-5 mb-8 sm:mb-12 font-Ovo animate-fade-in-up text-gray-600 text-sm sm:text-base">
+ My academic background and educational achievements</p>
+ <div class="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+ <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300 border-l-4 border-purple-500 hover-lift skill-item"
+ style="animation-delay:0.1s">
+ <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 sm:mb-4 gap-2">
+ <div>
+ <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Diploma in Software Engineering</h3>
+ <p class="text-purple-600 font-semibold text-sm sm:text-base">Aptech Institute</p>
+ </div>
+ <span
+ class="bg-purple-100 text-purple-700 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap">2023
+ – Present</span>
+ </div>
+ <p class="text-gray-600 text-sm sm:text-base">Currently pursuing comprehensive software engineering
+ education covering modern development practices and technologies.</p>
+ </div>
+ <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300 border-l-4 border-orange-500 hover-lift skill-item"
+ style="animation-delay:0.2s">
+ <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 sm:mb-4 gap-2">
+ <div>
+ <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Intermediate in Pre-Engineering</h3>
+ <p class="text-orange-600 font-semibold text-sm sm:text-base">Sir Syed Government Girls Degree
+ College</p>
+ </div>
+ <span
+ class="bg-orange-100 text-orange-700 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap">2021
+ – 2023</span>
+ </div>
+ <p class="text-gray-600 text-sm sm:text-base">Completed intermediate studies with focus on mathematics,
+ physics, and computer science fundamentals.</p>
+ </div>
+ <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300 border-l-4 border-blue-500 hover-lift skill-item"
+ style="animation-delay:0.3s">
+ <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 sm:mb-4 gap-2">
+ <div>
+ <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Matriculation in Science</h3>
+ <p class="text-blue-600 font-semibold text-sm sm:text-base">Iqra Hadiqa Tul Atfal School</p>
+ </div>
+ <span
+ class="bg-blue-100 text-blue-700 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap">2021</span>
+ </div>
+ <p class="text-gray-600 text-sm sm:text-base">Completed secondary education with science subjects,
+ building a strong foundation for technical studies.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- ═══════ WORK / SKILLS ═══════ -->
+ <div id="work" class="w-full px-[6%] sm:px-[10%] py-12 sm:py-16 scroll-mt-20">
+ <h4 class="text-center mb-2 text-base sm:text-lg font-Ovo animate-fade-in-up">My Expertise</h4>
+ <h2 class="text-center text-3xl sm:text-4xl md:text-5xl font-Ovo animate-fade-in-up">Technical Skills</h2>
+ <p
+ class="text-center max-w-2xl mx-auto mt-4 sm:mt-5 mb-8 sm:mb-12 font-Ovo animate-fade-in-up text-gray-600 text-sm sm:text-base">
+ Technologies and tools I work with to build innovative solutions</p>
+ <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 my-8 sm:my-10">
+ <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-8 rounded-lg relative cursor-pointer group hover:shadow-xl transition duration-300 hover-lift skill-item"
+ style="animation-delay:0.1s">
+ <div class="absolute top-3 sm:top-4 right-3 sm:right-4 text-2xl sm:text-3xl icon-float">⚛️</div>
+ <h3
+ class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-400">
+ MERN Stack</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">Full-stack web development using MongoDB, Express.js,
+ React.js, and Node.js.</p>
+ </div>
+ <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-6 sm:p-8 rounded-lg relative cursor-pointer group hover:shadow-xl transition duration-300 hover-lift skill-item"
+ style="animation-delay:0.2s">
+ <div class="absolute top-3 sm:top-4 right-3 sm:right-4 text-2xl sm:text-3xl icon-float">📱</div>
+ <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-800">Flutter / Firebase</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">Cross-platform mobile app development with real-time cloud
+ integration</p>
+ </div>
+ <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 sm:p-8 rounded-lg relative cursor-pointer group hover:shadow-xl transition duration-300 hover-lift skill-item"
+ style="animation-delay:0.3s">
+ <div class="absolute top-3 sm:top-4 right-3 sm:right-4 text-2xl sm:text-3xl icon-float">🌐</div>
+ <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-800">Frontend Web</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">HTML, CSS, Tailwind, JavaScript for building responsive
+ interfaces</p>
+ </div>
+ <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 sm:p-8 rounded-lg relative cursor-pointer group hover:shadow-xl transition duration-300 hover-lift skill-item"
+ style="animation-delay:0.4s">
+ <div class="absolute top-3 sm:top-4 right-3 sm:right-4 text-2xl sm:text-3xl icon-float">⚙️</div>
+ <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-800">PHP & .NET</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">Server-side scripting, C#, ASP.NET for legacy and enterprise
+ apps</p>
+ </div>
+ <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-6 sm:p-8 rounded-lg relative cursor-pointer group hover:shadow-xl transition duration-300 hover-lift skill-item"
+ style="animation-delay:0.5s">
+ <div class="absolute top-3 sm:top-4 right-3 sm:right-4 text-2xl sm:text-3xl icon-float">🗄️</div>
+ <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-800">Databases</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">MongoDB, MySQL, and SQL Server for efficient data management
+ </p>
+ </div>
+ <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-6 sm:p-8 rounded-lg relative cursor-pointer group hover:shadow-xl transition duration-300 hover-lift skill-item"
+ style="animation-delay:0.6s">
+ <div class="absolute top-3 sm:top-4 right-3 sm:right-4 text-2xl sm:text-3xl icon-float">🎨</div>
+ <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-800">UI/UX Design</h3>
+ <p class="text-gray-600 text-xs sm:text-sm">Creating intuitive and beautiful user interfaces</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- ═══════ PROJECT DEMOS ═══════ -->
+ <div id="videos" class="w-full px-[6%] sm:px-[10%] py-12 sm:py-16 scroll-mt-20 bg-slate-50/80">
+ <h4 class="text-center mb-2 text-base sm:text-lg font-Ovo animate-fade-in-up">In Action</h4>
+ <h2 class="text-center text-3xl sm:text-4xl md:text-5xl font-Ovo animate-fade-in-up">Project Demos</h2>
+ <p
+ class="text-center max-w-2xl mx-auto mt-4 sm:mt-5 mb-8 sm:mb-12 font-Ovo animate-fade-in-up text-gray-600 text-sm sm:text-base">
+ Watch my applications in action. Real functionality, real code.</p>
+ <h3
+ class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 border-l-4 border-purple-500 pl-3 sm:pl-4 animate-fade-in-up">
+ Web Applications</h3>
+ <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
+ <!-- MERN project card (new) -->
+ <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md hover:shadow-2xl transition duration-300 border-b-4 border-rose-500 hover-lift skill-item"
+ style="animation-delay:0.05s">
+ <div class="relative w-full aspect-video bg-gray-900 rounded-lg overflow-hidden group">
+ <video class="w-full h-full object-contain video-zoom" controls>
+ <source src="assets/fitnesstrackervideo.mp4" type="video/mp4">
+ <!-- Fallback: if video missing, show placeholder -->
+ <div class="flex items-center justify-center w-full h-full bg-gray-800 text-white text-sm">
+ MERN Demo</div>
+ </video>
+ </div>
+ <div class="mt-3 sm:mt-4">
+ <span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded text-xs font-bold inline-block">MERN
+ Stack</span>
+ <h3 class="text-base sm:text-xl font-bold text-gray-800 mt-1">Fitness Tracker</h3>
+ <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">Complete MERN project with authentication,
+ real‑time updates, and responsive UI. Demonstrates full‑cycle CRUD, JWT auth, and MongoDB
+ integration.</p>
+ </div>
+ </div>
+ <!-- existing cards -->
+ <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md hover:shadow-2xl transition duration-300 border-b-4 border-emerald-500 hover-lift skill-item"
+ style="animation-delay:0.1s">
+ <div class="relative w-full aspect-video bg-gray-900 rounded-lg overflow-hidden group">
+ <video class="w-full h-full object-contain video-zoom" controls>
+ <source src="assets/hotel.mp4" type="video/mp4">
+ </video>
+ </div>
+ <div class="mt-3 sm:mt-4">
+ <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold inline-block">MERN
+ Stack</span>
+ <h3 class="text-base sm:text-xl font-bold text-gray-800 mt-1">Online Hotel Booking System</h3>
+ <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">Full-stack MERN application for hotel room
+ booking with secure user authentication, room management, booking history, availability
+ tracking, and dedicated Admin and User dashboards.</p>
+ </div>
+ </div>
+ <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md hover:shadow-2xl transition duration-300 border-b-4 border-indigo-500 hover-lift skill-item"
+ style="animation-delay:0.2s">
+ <div class="relative w-full aspect-video bg-black rounded-lg overflow-hidden group">
+ <video class="w-full h-full object-cover video-zoom" controls>
+ <source src="assets/labautomation.mp4" type="video/mp4">
+ </video>
+ </div>
+ <div class="mt-3 sm:mt-4">
+ <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold inline-block">PHP,
+ MySQL</span>
+ <h3 class="text-base sm:text-xl font-bold text-gray-800 mt-1">Lab Automation</h3>
+ <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">Workflow management for testing and
+ reports, built using PHP and MySQL.</p>
+ </div>
+ </div>
+ <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md hover:shadow-2xl transition duration-300 border-b-4 border-purple-500 hover-lift skill-item"
+ style="animation-delay:0.3s">
+ <div class="relative w-full aspect-video bg-black rounded-lg overflow-hidden group">
+ <video class="w-full h-full object-contain video-zoom" controls>
+ <source src="assets/media2.mp4" type="video/mp4">
+ </video>
+ </div>
+ <div class="mt-3 sm:mt-4">
+ <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold inline-block">.NET,
+ SQL Server</span>
+ <h3 class="text-base sm:text-xl font-bold text-gray-800 mt-1">Bus Reservation (Employee)</h3>
+ <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">Robust ticket booking platform handling
+ complex schedules, built using .NET and SQL Server.</p>
+ </div>
+ </div>
+ <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md hover:shadow-2xl transition duration-300 border-b-4 border-orange-500 hover-lift skill-item"
+ style="animation-delay:0.4s">
+ <div class="relative w-full aspect-video bg-black rounded-lg overflow-hidden group">
+ <video class="w-full h-full object-contain video-zoom" controls>
+ <source src="assets/media1.mp4" type="video/mp4">
+ </video>
+ </div>
+ <div class="mt-3 sm:mt-4">
+ <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold inline-block">.NET,
+ SQL Server</span>
+ <h3 class="text-base sm:text-xl font-bold text-gray-800 mt-1">Bus Reservation (Admin)</h3>
+ <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">Comprehensive backend management for
+ inventory, built using .NET and SQL Server.</p>
+ </div>
+ </div>
+ </div>
+ <h3
+ class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 border-l-4 border-cyan-500 pl-3 sm:pl-4 animate-fade-in-up">
+ Mobile Applications</h3>
+ <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
+ <div
+ class="bg-white p-3 sm:p-4 rounded-xl shadow-md hover:shadow-xl transition duration-300 border-b-4 border-green-500 hover-lift skill-item">
+ <div
+ class="bg-black rounded-lg overflow-hidden aspect-[9/16] w-full max-w-[260px] sm:max-w-[300px] mx-auto group">
+ <video controls class="w-full h-full object-contain video-zoom">
+ <source src="assets/eproject.mp4" type="video/mp4">
+ </video>
+ </div>
+ <div class="mt-3 sm:mt-4 text-center">
+ <h3 class="text-base sm:text-xl font-bold text-gray-800">Sustainable Living Guide</h3>
+ <span
+ class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold inline-block mt-1">Flutter,
+ Firebase</span>
+ <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">Eco-friendly lifestyle tracker app built
+ with Flutter and Firebase.</p>
+ </div>
+ </div>
+ <div
+ class="bg-white p-3 sm:p-4 rounded-xl shadow-md hover:shadow-xl transition duration-300 border-b-4 border-red-500 hover-lift skill-item">
+ <div
+ class="bg-black rounded-lg overflow-hidden aspect-[9/16] w-full max-w-[260px] sm:max-w-[300px] mx-auto shadow-inner group">
+ <video controls class="w-full h-full object-contain video-zoom">
+ <source src="assets/movieapp.mp4" type="video/mp4">
+ </video>
+ </div>
+ <div class="mt-3 sm:mt-4 text-center">
+ <h3 class="text-base sm:text-xl font-bold text-gray-800">CineStream Movie App</h3>
+ <span
+ class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold inline-block mt-1">Flutter,
+ Firebase</span>
+ <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">Real-time movie streaming platform built
+ with Flutter and Firebase.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- ═══════ CONTACT ═══════ -->
+ <section id="contact" class="contact-section scroll-mt-20">
+ <div class="container">
+ <h2 class="section-title">Contact Me</h2>
+ <p class="section-subtitle">Feel free to reach out for collaborations, opportunities, or just to say hello!
+ </p>
+ <div class="contact-container">
+ <div class="contact-form">
+ <form action="https://formspree.io/f/xnndpknk" method="POST" id="contactForm">
+ <div class="form-group">
+ <input type="text" name="name" id="name" placeholder="Your Name *" required>
+ </div>
+ <div class="form-group">
+ <input type="email" name="email" id="email" placeholder="Your Email *" required>
+ </div>
+ <div class="form-group">
+ <input type="text" name="subject" id="subject" placeholder="Subject">
+ </div>
+ <div class="form-group">
+ <textarea name="message" id="message" placeholder="Your Message *" required></textarea>
+ </div>
+ <button type="submit" class="submit-btn">Send Message</button>
+ </form>
+ </div>
+ <div class="contact-info">
+ <div class="floating-element floating-element-1"></div>
+ <div class="floating-element floating-element-2"></div>
+ <h3>Software Development</h3>
+ <p>Full Stack MERN & Mobile Development</p>
+ <div class="contact-item">
+ <h4><i class="fas fa-phone-alt"></i> Phone</h4>
+ <p>+92 316 2705226</p>
+ </div>
+ <div class="contact-item">
+ <h4><i class="fas fa-envelope"></i> Email</h4>
+ <p><a href="mailto:unzelawaseem3@gmail.com">unzelawaseem3@gmail.com</a></p>
+ </div>
+ <div class="contact-item">
+ <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+ <p>Karachi, Pakistan</p>
+ </div>
+ <div class="social-links">
+ <a href="#"><i class="fab fa-facebook-f"></i></a>
+ <a href="#"><i class="fab fa-twitter"></i></a>
+ <a href="#"><i class="fab fa-linkedin-in"></i></a>
+ <a href="#"><i class="fab fa-instagram"></i></a>
+ <a href="#"><i class="fab fa-github"></i></a>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- ═══════ FOOTER ═══════ -->
+ <footer class="bg-[#0a0a16] text-white pt-12 sm:pt-20 pb-8 sm:pb-10 relative overflow-hidden">
+ <div class="absolute top-0 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-purple-600/20 blur-[120px] -z-0"></div>
+ <div class="absolute bottom-0 right-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-orange-600/10 blur-[120px] -z-0"></div>
+ <div class="container mx-auto px-[6%] sm:px-[10%] relative z-10">
+ <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16">
+ <div>
+ <h2
+ class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent mb-4 sm:mb-6 inline-block">
+ Unzela.</h2>
+ <p class="text-gray-400 leading-relaxed text-sm sm:text-base">Crafting digital experiences through
+ clean code and innovative design. Specializing in Full Stack MERN & Mobile development.</p>
+ </div>
+ <div>
+ <h4
+ class="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-white border-b-2 border-purple-500 w-fit pb-1">
+ Quick Links</h4>
+ <ul class="space-y-2 sm:space-y-3 text-gray-400 text-sm sm:text-base">
+ <li><a href="#top" class="hover:text-purple-400 transition-colors">Home</a></li>
+ <li><a href="#about" class="hover:text-purple-400 transition-colors">About Me</a></li>
+ <li><a href="#work" class="hover:text-purple-400 transition-colors">My Work</a></li>
+ </ul>
+ </div>
+ <div>
+ <h4
+ class="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-white border-b-2 border-orange-500 w-fit pb-1">
+ Contact</h4>
+ <p class="text-gray-400 text-sm sm:text-base break-all">unzelawaseem3@gmail.com</p>
+ <p class="text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base">+92 316 2705226</p>
+ </div>
+ <div>
+ <h4
+ class="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-white border-b-2 border-cyan-500 w-fit pb-1">
+ Newsletter</h4>
+ <div class="relative">
+ <input type="email" placeholder="Email"
+ class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm focus:outline-none focus:border-purple-500 transition-all">
+ <button
+ class="absolute right-1.5 sm:right-2 top-1.5 sm:top-2 bottom-1.5 sm:bottom-2 bg-gradient-to-r from-purple-600 to-orange-500 text-white px-3 sm:px-4 rounded-lg text-[10px] sm:text-xs font-bold">Join</button>
+ </div>
+ </div>
+ </div>
+ <div class="border-t border-white/10 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-gray-500">
+ <p>© 2026 Unzela Waseem. Built with ❤️ and Code.</p>
+ </div>
+ </div>
+ </footer>
+
+ <script>
+ // ── mobile menu ──
+ function openMenu() { document.getElementById('mobileMenu').style.right = '0'; }
+
+ function closeMenu() { document.getElementById('mobileMenu').style.right = '-18rem'; }
+
+ // ── headline word reveal ──
+ const titleText = "Full-Stack MERN & Mobile Developer.";
+ const titleEl = document.getElementById('heroTitle');
+ titleText.split(" ").forEach((word, i) => {
+ const span = document.createElement('span');
+ span.className = 'hero-h1-word';
+ span.textContent = word;
+ span.style.animationDelay = (1.1 + i * 0.13) + 's';
+ titleEl.appendChild(span);
+ if (i < titleText.split(" ").length - 1) titleEl.appendChild(document.createTextNode('\u00A0'));
+ });
+
+ // ── floating particles (canvas) ──
+ const canvas = document.getElementById('heroCanvas');
+ const ctx = canvas.getContext('2d');
+ let W, H, particles = [];
+
+ function resize() {
+ W = canvas.width = window.innerWidth;
+ H = canvas.height = window.innerHeight;
+ }
+ window.addEventListener('resize', resize);
+ resize();
+
+ const COLORS = ['rgba(168,85,247,', 'rgba(249,115,22,', 'rgba(236,72,153,', 'rgba(99,102,241,'];
+
+ class Particle {
+ constructor() { this.reset(true); }
+ reset(init) {
+ this.x = Math.random() * W;
+ this.y = init ? Math.random() * H : H + 20;
+ this.r = Math.random() * 3 + 1;
+ this.vx = (Math.random() - 0.5) * 0.4;
+ this.vy = -(Math.random() * 0.6 + 0.2);
+ this.col = COLORS[Math.floor(Math.random() * COLORS.length)];
+ this.life = Math.random() * 0.6 + 0.2;
+ this.max = this.life;
+ }
+ update() {
+ this.x += this.vx;
+ this.y += this.vy;
+ this.life -= 0.002;
+ if (this.life <= 0 || this.y < -10) this.reset(false);
+ }
+ draw() {
+ ctx.beginPath();
+ ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+ ctx.fillStyle = this.col + (this.life / this.max).toFixed(2) + ')';
+ ctx.fill();
+ }
+ }
+
+ for (let i = 0; i < 55; i++) particles.push(new Particle());
+
+ function animLoop() {
+ ctx.clearRect(0, 0, W, H);
+ particles.forEach(p => {
+ p.update();
+ p.draw();
+ });
+ requestAnimationFrame(animLoop);
+ }
+ animLoop();
+
+ // ── scroll observer for skill items ──
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach(entry => {
+ if (entry.isIntersecting) {
+ entry.target.classList.add('visible');
+ }
+ });
+ }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+ document.querySelectorAll('.skill-item').forEach(el => observer.observe(el));
+
+ // ── also trigger for any .animate-fade-in-up that might not be in view ──
+ document.querySelectorAll('.animate-fade-in-up').forEach(el => {
+ if (el.getBoundingClientRect().top < window.innerHeight) {
+ el.style.opacity = '1';
+ }
+ });
+ </script>
+
+</body>
+
+</html>
