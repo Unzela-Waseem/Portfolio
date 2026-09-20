@@ -202,11 +202,103 @@
       animation: gradientShift 5s ease infinite;
     }
 
+    /* ── premium hero ── */
+    .hero-section {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    .hero-mesh-bg {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(168, 85, 247, 0.12), transparent),
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(249, 115, 22, 0.06), transparent),
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(236, 72, 153, 0.06), transparent);
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    .hero-orb-1 {
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, #c084fc, #fb923c);
+      top: 10%;
+      left: -5%;
+      filter: blur(70px);
+      opacity: 0.22;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .hero-orb-2 {
+      width: 240px;
+      height: 240px;
+      background: linear-gradient(135deg, #fb923c, #f472b6);
+      bottom: 15%;
+      right: -3%;
+      filter: blur(70px);
+      opacity: 0.22;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    .hero-orb-3 {
+      width: 160px;
+      height: 160px;
+      background: linear-gradient(135deg, #c084fc, #f472b6);
+      top: 60%;
+      left: 20%;
+      filter: blur(60px);
+      opacity: 0.2;
+      animation: float 12s ease-in-out infinite;
+    }
+
+    .hero-avatar-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-avatar-ring {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(168, 85, 247, 0.4);
+      animation: spin-slow 15s linear infinite;
+    }
+
+    .hero-avatar-ring-2 {
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      animation: spin-slow 25s linear infinite reverse;
+    }
+
     .hero-avatar {
       opacity: 0;
       animation: avatarEntrance 0.9s cubic-bezier(.34, 1.56, .64, 1) 0.1s forwards,
         float 6s ease-in-out 1.2s infinite,
         glowPulse 3s ease-in-out 1.2s infinite;
+    }
+
+    .hero-status-badge {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: #22c55e;
+      border: 3px solid white;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+      z-index: 2;
     }
 
     .hero-greeting {
@@ -230,6 +322,75 @@
     .hero-btn-wrap {
       opacity: 0;
       animation: fadeUp 0.7s ease 1.85s forwards;
+    }
+
+    .hero-tech-badge {
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4b5563;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .hero-tech-badge:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+
+    .hero-stats {
+      opacity: 0;
+      animation: fadeUp 0.7s ease 2.1s forwards;
+    }
+
+    .hero-stat-item {
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    .hero-stat-number {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7c3aed, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-stat-label {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    .hero-scroll-indicator {
+      opacity: 0;
+      animation: fadeUp 0.7s ease 2.4s forwards;
+    }
+
+    .hero-scroll-indicator .scroll-dot {
+      width: 6px;
+      height: 6px;
+      background: #a855f7;
+      border-radius: 50%;
+      animation: scrollBounce 2s infinite;
     }
 
     .hero-btn-primary {
@@ -273,7 +434,7 @@
 
     /* ── contact ── */
     .contact-section {
-      background: linear-gradient(135deg, #f9f9f9 0%, #f0f4ff 100%);
+      background: #fafaff;
       padding: 80px 0;
     }
 
@@ -293,42 +454,51 @@
 
     .section-subtitle {
       text-align: center;
-      color: #555;
+      color: #666;
       max-width: 600px;
-      margin: 0 auto 60px;
-      font-size: 1.1rem;
+      margin: 0 auto 50px;
+      font-size: 1.05rem;
     }
 
     .contact-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 30px;
+      gap: 0;
       background: white;
       border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .08);
+      box-shadow: 0 12px 48px rgba(124, 58, 237, 0.07);
+      border: 1px solid #f0ebf8;
     }
 
     .contact-form {
-      flex: 1 1 300px;
-      padding: 30px 24px;
+      flex: 1 1 340px;
+      padding: 44px 38px;
       background: white;
     }
 
     .contact-info {
       flex: 1 1 300px;
-      padding: 30px 24px;
-      background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
-      color: white;
+      padding: 44px 38px;
+      background: linear-gradient(145deg, #fdfbff 0%, #f6f0ff 50%, #fff8f5 100%);
+      color: #1e1e2f;
       position: relative;
       overflow: hidden;
+      border-left: 1px solid #f0ebf8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .contact-info::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+      top: -60px;
+      right: -60px;
+      pointer-events: none;
     }
 
     .form-group {
@@ -338,98 +508,133 @@
     .form-group input,
     .form-group textarea {
       width: 100%;
-      padding: 16px 18px;
-      border: 2px solid #eaeaea;
+      padding: 14px 18px;
+      border: 1.5px solid #e8e2f3;
       border-radius: 12px;
-      font-size: 16px;
+      font-size: 15px;
       font-family: 'Outfit', sans-serif;
       transition: all .3s ease;
-      background: #f9f9f9;
+      background: #fafafd;
+      color: #1e1e2f;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #aaa;
     }
 
     .form-group input:focus,
     .form-group textarea:focus {
       outline: none;
-      border-color: #996edd;
+      border-color: #a855f7;
       background: white;
-      box-shadow: 0 5px 15px rgba(123, 47, 247, .1);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1);
     }
 
     .form-group textarea {
-      min-height: 150px;
+      min-height: 130px;
       resize: vertical;
     }
 
     .submit-btn {
-      background: linear-gradient(135deg, #8d59e0 0%, #843a6b 100%);
+      background: linear-gradient(135deg, #7c3aed, #f97316);
       color: white;
       border: none;
-      padding: 16px 30px;
-      border-radius: 12px;
-      font-size: 16px;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: all .4s ease;
+      transition: all .3s ease;
       width: 100%;
       font-family: 'Outfit', sans-serif;
-      letter-spacing: 1px;
+      letter-spacing: 0.3px;
     }
 
     .submit-btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(123, 47, 247, .3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(124, 58, 237, .3);
     }
 
     .contact-info h3 {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      margin-bottom: 10px;
+      font-size: clamp(1.5rem, 4vw, 1.85rem);
+      margin-bottom: 6px;
       font-family: 'Ovo', serif;
       position: relative;
       z-index: 1;
+      color: #1e1e2f;
     }
 
-    .contact-info p {
-      font-size: 1rem;
-      margin-bottom: 30px;
-      opacity: .9;
+    .contact-info p.contact-desc {
+      font-size: 0.92rem;
+      margin-bottom: 32px;
       position: relative;
       z-index: 1;
+      color: #6b6684;
+      line-height: 1.5;
     }
 
     .contact-item {
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       position: relative;
       z-index: 1;
-      padding-left: 36px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid #f0ebf8;
+      padding: 12px 16px;
+      border-radius: 14px;
+      transition: all 0.3s ease;
     }
 
-    .contact-item h4 {
-      font-size: 0.95rem;
-      margin-bottom: 4px;
-      opacity: .8;
-      font-weight: 500;
+    .contact-item:hover {
+      background: white;
+      border-color: #d8b4fe;
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.08);
     }
 
-    .contact-item p {
-      font-size: 1.1rem;
+    .contact-item-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #f3e8ff 0%, #ffedd5 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7c3aed;
+      font-size: 17px;
+    }
+
+    .contact-item-body h4 {
+      font-size: 0.75rem;
+      margin-bottom: 2px;
+      font-weight: 600;
+      color: #938ba9;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .contact-item-body p,
+    .contact-item-body a {
+      font-size: 0.98rem;
       margin-bottom: 0;
       font-weight: 600;
-    }
-
-    .contact-item a {
-      color: white;
+      color: #1e1e2f;
       text-decoration: none;
-      transition: opacity .3s;
+      word-break: break-all;
     }
 
-    .contact-item a:hover {
-      opacity: .8;
+    .contact-item-body a:hover {
+      color: #7c3aed;
     }
 
     .social-links {
       display: flex;
       gap: 12px;
-      margin-top: 30px;
+      margin-top: 10px;
       position: relative;
       z-index: 1;
       flex-wrap: wrap;
@@ -441,67 +646,52 @@
       justify-content: center;
       width: 42px;
       height: 42px;
-      background: rgba(255, 255, 255, .15);
-      border-radius: 50%;
-      color: white;
+      background: white;
+      border: 1.5px solid #e8e2f3;
+      border-radius: 12px;
+      color: #7c3aed;
       font-size: 17px;
       transition: all .3s ease;
     }
 
     .social-links a:hover {
-      background: white;
-      color: #7b2ff7;
-      transform: translateY(-5px) scale(1.1);
-    }
-
-    .floating-element {
-      position: absolute;
-      border-radius: 50%;
-      opacity: .1;
-      z-index: 0;
-    }
-
-    .floating-element-1 {
-      width: 100px;
-      height: 100px;
-      background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
-      top: 10%;
-      left: 5%;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    .floating-element-2 {
-      width: 70px;
-      height: 70px;
-      background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-      bottom: 20%;
-      right: 10%;
-      animation: float 10s ease-in-out infinite reverse;
+      background: linear-gradient(135deg, #7c3aed, #f97316);
+      border-color: transparent;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.25);
     }
 
     @media (min-width: 768px) {
       .contact-form {
-        padding: 50px;
+        padding: 50px 44px;
       }
 
       .contact-info {
-        padding: 50px;
+        padding: 50px 44px;
       }
     }
 
     @media (max-width: 767px) {
       .contact-container {
-        gap: 20px;
+        gap: 0;
         border-radius: 16px;
       }
 
-      .contact-form,
+      .contact-form {
+        padding: 28px 20px;
+        border-radius: 16px 16px 0 0;
+      }
+
       .contact-info {
-        padding: 24px 18px;
+        padding: 28px 20px;
+        border-radius: 0 0 16px 16px;
+        border-left: none;
+        border-top: 1px solid #f0ebf8;
       }
 
       .contact-item {
-        padding-left: 28px;
+        padding: 10px 14px;
       }
     }
 
@@ -799,29 +989,59 @@
   </nav>
 
   <!-- ═══════ HERO ═══════ -->
-  <div
-    class="w-11/12 max-w-3xl text-center mx-auto min-h-screen flex flex-col items-center justify-center gap-3 pt-20 pb-10">
-    <div
-      class="hero-avatar w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-purple-400 to-orange-400 flex items-center justify-center text-white text-4xl sm:text-5xl font-bold shadow-xl hover-lift">
-      U
-    </div>
+  <div class="hero-section">
+    <!-- Animated Mesh Background -->
+    <div class="hero-mesh-bg"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
 
-    <h3 class="hero-greeting flex items-center gap-2 text-lg sm:text-xl md:text-2xl font-Ovo">Hi! I'm Unzela <span
-        class="text-xl sm:text-2xl animate-pulse-slow">👋</span></h3>
+    <div class="w-11/12 max-w-3xl text-center mx-auto min-h-screen flex flex-col items-center justify-center gap-4 pt-20 pb-10">
 
-    <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-[66px] font-Ovo leading-tight px-2" id="heroTitle"></h1>
+      <!-- Avatar with Rotating Rings -->
+      <div class="hero-avatar-wrapper">
+        <div class="hero-avatar-ring-2"></div>
+        <div class="hero-avatar-ring"></div>
+        <div class="hero-avatar w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-orange-400 flex items-center justify-center text-white text-4xl sm:text-5xl font-bold shadow-2xl">
+          U
+        </div>
+        <div class="hero-status-badge" title="Available for hire"></div>
+      </div>
 
-    <p class="hero-para max-w-2xl mx-auto font-Ovo text-gray-700 text-sm sm:text-base px-3">I am a passionate
-      software developer specializing in modern web and mobile applications, bringing ideas to life with React,
-      Node.js, and Flutter.</p>
+      <!-- Greeting -->
+      <h3 class="hero-greeting flex items-center gap-2 text-lg sm:text-xl md:text-2xl font-Ovo">
+        Hi! I'm <span class="font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">Unzela</span>
+        <span class="text-xl sm:text-2xl animate-pulse-slow">👋</span>
+      </h3>
 
-    <div class="hero-btn-wrap flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-3 w-full sm:w-auto px-4">
-      <a href="#contact"
-        class="hero-btn-primary w-full sm:w-auto px-6 sm:px-10 py-2.5 border rounded-full bg-gradient-to-r from-purple-600 to-orange-500 text-white flex items-center justify-center gap-2 shadow-md font-medium text-sm sm:text-base">Contact
-        me <span>→</span></a>
-      <a href="#education"
-        class="hero-btn-secondary w-full sm:w-auto px-6 sm:px-10 py-2.5 rounded-full border border-gray-300 hover:bg-gray-50/80 flex items-center justify-center gap-2 bg-white/70 shadow-sm font-medium text-sm sm:text-base">Education
-        <span>↓</span></a>
+      <!-- Animated Title -->
+      <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-[66px] font-Ovo leading-tight px-2" id="heroTitle"></h1>
+
+      <!-- Description -->
+      <p class="hero-para max-w-2xl mx-auto font-Ovo text-gray-600 text-sm sm:text-base px-3 leading-relaxed">
+        Passionate software developer crafting modern <strong class="text-gray-800">web</strong> & <strong class="text-gray-800">mobile</strong> applications.
+        Bringing ideas to life with clean code and pixel-perfect design.
+      </p>
+
+      <!-- Tech Badges -->
+      <div class="flex flex-wrap justify-center gap-2 mt-1 px-4">
+        <span class="hero-tech-badge" style="animation-delay: 2s"><i class="fab fa-react text-cyan-500"></i> React</span>
+        <span class="hero-tech-badge" style="animation-delay: 2.1s"><i class="fab fa-node-js text-green-600"></i> Node.js</span>
+        <span class="hero-tech-badge" style="animation-delay: 2.2s"><i class="fas fa-database text-emerald-600"></i> MongoDB</span>
+        <span class="hero-tech-badge" style="animation-delay: 2.3s"><i class="fab fa-flutter text-blue-500"></i> Flutter</span>
+        <span class="hero-tech-badge" style="animation-delay: 2.4s"><i class="fas fa-fire text-amber-500"></i> Firebase</span>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="hero-btn-wrap flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-4 w-full sm:w-auto px-4">
+        <a href="#contact"
+          class="hero-btn-primary w-full sm:w-auto px-8 sm:px-10 py-3 border rounded-full bg-gradient-to-r from-purple-400 to-orange-400 text-white flex items-center justify-center gap-2 shadow-lg font-semibold text-sm sm:text-base">
+          <i class="fas fa-paper-plane text-xs"></i> Contact me <span>→</span>
+        </a>
+    
+      </div>
+
+
     </div>
   </div>
 
@@ -942,7 +1162,7 @@
     </div>
   </div>
 
-  <!-- ═══════ WORK / SKILLS ═══════ -->
+  <!-- download cv WORK / SKILLS ═══════ -->
   <div id="work" class="w-full px-[6%] sm:px-[10%] py-12 sm:py-16 scroll-mt-20">
     <h4 class="text-center mb-2 text-base sm:text-lg font-Ovo animate-fade-in-up">My Expertise</h4>
     <h2 class="text-center text-3xl sm:text-4xl md:text-5xl font-Ovo animate-fade-in-up">Technical Skills</h2>
@@ -1248,28 +1468,42 @@
           </form>
         </div>
         <div class="contact-info">
-          <div class="floating-element floating-element-1"></div>
-          <div class="floating-element floating-element-2"></div>
-          <h3>Software Development</h3>
-          <p>Full Stack MERN & Mobile Development</p>
+          <h3>Get In Touch</h3>
+          <p class="contact-desc">Full Stack MERN &amp; Mobile Development</p>
+
           <div class="contact-item">
-            <h4><i class="fas fa-phone-alt"></i> Phone</h4>
-            <p>+92 316 2705226</p>
+            <div class="contact-item-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-item-body">
+              <h4>Phone</h4>
+              <p>+92 316 2705226</p>
+            </div>
           </div>
+
           <div class="contact-item">
-            <h4><i class="fas fa-envelope"></i> Email</h4>
-            <p><a href="mailto:unzelawaseem3@gmail.com">unzelawaseem3@gmail.com</a></p>
+            <div class="contact-item-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-item-body">
+              <h4>Email</h4>
+              <p><a href="mailto:unzelawaseem3@gmail.com">unzelawaseem3@gmail.com</a></p>
+            </div>
           </div>
+
           <div class="contact-item">
-            <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
-            <p>Karachi, Pakistan</p>
+            <div class="contact-item-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-item-body">
+              <h4>Location</h4>
+              <p>Karachi, Pakistan</p>
+            </div>
           </div>
+
           <div class="social-links">
-            <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://facebook.com/yourusername" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://instagram.com/yourusername" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/Unzela-Waseem" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/unzela-waseem/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
           </div>
         </div>
       </div>
@@ -1311,11 +1545,8 @@
             class="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-white border-b-2 border-cyan-500 w-fit pb-1">
             Social</h4>
           <div class="flex gap-3 sm:gap-4">
-            <a href="https://github.com/yourusername" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl"><i class="fab fa-github"></i></a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://twitter.com/yourusername" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl"><i class="fab fa-twitter"></i></a>
-            <a href="https://facebook.com/yourusername" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://instagram.com/yourusername" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/Unzela-Waseem" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/unzela-waseem/" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl"><i class="fab fa-linkedin-in"></i></a>
           </div>
         </div>
       </div>
