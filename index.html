@@ -514,6 +514,43 @@
       object-fit: contain;
       background: #111;
       display: block;
+      cursor: zoom-in;
+    }
+
+    .video-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(10, 10, 20, .88);
+      backdrop-filter: blur(6px);
+    }
+
+    .video-lightbox[hidden] { display: none; }
+
+    .video-lightbox video {
+      width: min(1100px, 100%);
+      max-height: calc(100vh - 48px);
+      background: #000;
+      border-radius: 12px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .45);
+    }
+
+    .video-lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 50%;
+      background: white;
+      color: #1e1e2f;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
     }
 
     .arc-card-body {
@@ -1529,6 +1566,11 @@
       </div>
     </div>
 
+    <div class="video-lightbox" id="videoLightbox" role="dialog" aria-modal="true" aria-label="Project demo video" hidden>
+      <button class="video-lightbox-close" id="videoLightboxClose" type="button" aria-label="Close video">&times;</button>
+      <video id="lightboxVideo" controls playsinline></video>
+    </div>
+
     <h3
       class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 border-l-4 border-cyan-500 pl-3 sm:pl-4 animate-fade-in-up">
       Mobile Applications</h3>
@@ -1762,7 +1804,7 @@
       const cards = Array.from(document.querySelectorAll('.arc-card'));
       const dots  = Array.from(document.querySelectorAll('.arc-dot'));
       const total = cards.length;
-      let current = 0;
+      let current = 2; // start at middle card so both sides show on load
 
       const CLASSES = ['hidden-left', 'prev-2', 'prev-1', 'active', 'next-1', 'next-2', 'hidden-right'];
 
@@ -1805,8 +1847,44 @@
 
       dots.forEach(dot => dot.addEventListener('click', () => goTo(+dot.dataset.idx)));
 
-      // click side cards to focus
-      cards.forEach((card, i) => card.addEventListener('click', () => { if (i !== current) goTo(i); }));
+      const lightbox = document.getElementById('videoLightbox');
+      const lightboxVideo = document.getElementById('lightboxVideo');
+      const lightboxClose = document.getElementById('videoLightboxClose');
+
+      function closeVideo() {
+        lightboxVideo.pause();
+        lightboxVideo.removeAttribute('src');
+        lightboxVideo.load();
+        lightbox.hidden = true;
+        update();
+      }
+
+      function openVideo(card) {
+        const source = card.querySelector('video source');
+        if (!source) return;
+        lightboxVideo.src = source.src;
+        lightbox.hidden = false;
+        lightboxVideo.load();
+        lightboxVideo.play().catch(() => {});
+        lightboxClose.focus();
+      }
+
+      // Videos open in a large player; clicking the rest of a side card focuses it.
+      cards.forEach((card, i) => {
+        card.addEventListener('click', () => { if (i !== current) goTo(i); });
+        card.querySelector('video')?.addEventListener('click', event => {
+          event.stopPropagation();
+          openVideo(card);
+        });
+      });
+
+      lightboxClose.addEventListener('click', closeVideo);
+      lightbox.addEventListener('click', event => {
+        if (event.target === lightbox) closeVideo();
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !lightbox.hidden) closeVideo();
+      });
 
       // keyboard
       document.addEventListener('keydown', e => {
