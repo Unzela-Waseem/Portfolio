@@ -676,6 +676,7 @@
 
     .mobile-app-card {
       position: relative;
+      isolation: isolate;
       width: 190px;
       flex: 0 0 190px;
       height: 260px;
@@ -685,16 +686,47 @@
       overflow: hidden;
       border: 1px solid rgba(148, 163, 184, .16);
       border-radius: 26px;
-      background: #fff;
+      background: linear-gradient(155deg, #fff 25%, var(--app-tint, #faf5ff) 145%);
       box-shadow: 0 18px 55px rgba(31, 41, 55, .12);
-      transition: width .55s cubic-bezier(.2, .75, .25, 1), flex-basis .55s cubic-bezier(.2, .75, .25, 1), box-shadow .45s ease;
+      transition: width .55s cubic-bezier(.2, .75, .25, 1), flex-basis .55s cubic-bezier(.2, .75, .25, 1), box-shadow .35s ease, transform .35s ease, border-color .35s ease;
       cursor: pointer;
     }
+
+    .mobile-app-card:nth-child(5n + 1) { --app-accent: #8b5cf6; --app-tint: #f5edff; }
+    .mobile-app-card:nth-child(5n + 2) { --app-accent: #f97316; --app-tint: #fff1e7; }
+    .mobile-app-card:nth-child(5n + 3) { --app-accent: #a855f7; --app-tint: #f7efff; }
+    .mobile-app-card:nth-child(5n + 4) { --app-accent: #ec4899; --app-tint: #fff0f7; }
+    .mobile-app-card:nth-child(5n + 5) { --app-accent: #7c3aed; --app-tint: #f2edff; }
+
+    .mobile-app-card::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 150px;
+      height: 150px;
+      right: -64px;
+      bottom: -68px;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--app-accent) 24%, transparent), transparent 70%);
+      transition: transform .45s ease, opacity .35s ease;
+      opacity: .75;
+      pointer-events: none;
+    }
+
+    .mobile-app-card:hover {
+      transform: translateY(-5px);
+      border-color: color-mix(in srgb, var(--app-accent) 35%, white);
+      box-shadow: 0 22px 48px color-mix(in srgb, var(--app-accent) 17%, transparent);
+    }
+
+    .mobile-app-card:hover::before { transform: scale(1.35); opacity: 1; }
+    .mobile-app-card:focus-within { outline: 3px solid color-mix(in srgb, var(--app-accent) 45%, white); outline-offset: 3px; }
 
     .mobile-app-card.active {
       width: min(560px, 70vw);
       flex-basis: min(560px, 70vw);
-      box-shadow: 0 24px 65px rgba(124, 58, 237, .16);
+      border-color: color-mix(in srgb, var(--app-accent) 28%, white);
+      box-shadow: 0 24px 65px color-mix(in srgb, var(--app-accent) 18%, transparent);
     }
 
     .mobile-app-copy {
@@ -730,11 +762,16 @@
     .mobile-app-toggle:hover { color: #fff; background: linear-gradient(135deg, #7c3aed, #f97316); transform: translateX(2px); }
 
     .mobile-app-card:not(.active) .mobile-app-copy { padding: 22px 18px; }
-    .mobile-app-card:not(.active) .arc-card-badge,
-    .mobile-app-card:not(.active) .mobile-app-card-desc,
     .mobile-app-card:not(.active) .mobile-app-card-link,
     .mobile-app-card:not(.active) .mobile-app-media { display: none; }
-    .mobile-app-card:not(.active) .mobile-app-card-title { margin: 0 0 12px; font-size: .92rem; }
+    .mobile-app-card:not(.active) .arc-card-badge { font-size: .62rem; padding: 4px 8px; }
+    .mobile-app-card:not(.active) .mobile-app-card-title { margin: 10px 0 7px; font-size: .92rem; }
+    .mobile-app-card:not(.active) .mobile-app-card-desc { font-size: .68rem; line-height: 1.45; -webkit-line-clamp: 4; }
+    .mobile-app-card:not(.active) .mobile-app-toggle {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--app-accent) 15%, white), #fff);
+      color: var(--app-accent);
+      box-shadow: 0 5px 16px color-mix(in srgb, var(--app-accent) 20%, transparent);
+    }
 
     .mobile-app-carousel { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-behavior: smooth; }
     .mobile-app-carousel::-webkit-scrollbar { display: none; }
@@ -760,7 +797,9 @@
       .mobile-app-card-desc { font-size: .68rem; -webkit-line-clamp: 4; }
       .mobile-app-media { flex-basis: 39%; margin: 8px; border-radius: 15px; }
       .mobile-app-card:not(.active) .mobile-app-copy { padding: 18px 12px; }
-      .mobile-app-card:not(.active) .mobile-app-card-title { font-size: .8rem; }
+      .mobile-app-card:not(.active) .mobile-app-card-title { margin: 8px 0 6px; font-size: .8rem; }
+      .mobile-app-card:not(.active) .mobile-app-card-desc { font-size: .61rem; line-height: 1.4; -webkit-line-clamp: 4; }
+      .mobile-app-card:not(.active) .arc-card-badge { font-size: .55rem; padding: 4px 6px; }
       .mobile-app-toggle { width: 34px; height: 34px; flex-basis: 34px; }
     }
 
