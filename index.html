@@ -665,18 +665,21 @@
     }
 
     .mobile-app-track {
-      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: max-content;
+      min-width: 100%;
       height: 310px;
-      perspective: 1100px;
-      touch-action: pan-y;
+      touch-action: pan-x pan-y;
     }
 
     .mobile-app-card {
-      position: absolute;
-      inset: 0;
+      position: relative;
       width: 190px;
+      flex: 0 0 190px;
       height: 260px;
-      margin: auto;
+      margin: 0;
       display: flex;
       align-items: stretch;
       overflow: hidden;
@@ -684,23 +687,15 @@
       border-radius: 26px;
       background: #fff;
       box-shadow: 0 18px 55px rgba(31, 41, 55, .12);
-      transition: transform .55s cubic-bezier(.2, .75, .25, 1), opacity .45s ease, filter .45s ease, box-shadow .45s ease;
-      transform-origin: center center;
+      transition: width .55s cubic-bezier(.2, .75, .25, 1), flex-basis .55s cubic-bezier(.2, .75, .25, 1), box-shadow .45s ease;
       cursor: pointer;
     }
 
     .mobile-app-card.active {
-      z-index: 5;
-      width: min(560px, calc(100% - 76px));
-      transform: translateX(0) scale(1);
-      opacity: 1;
+      width: min(560px, 70vw);
+      flex-basis: min(560px, 70vw);
       box-shadow: 0 24px 65px rgba(124, 58, 237, .16);
     }
-
-    .mobile-app-card.prev { z-index: 3; transform: translateX(-390px) scale(1); opacity: .96; }
-    .mobile-app-card.next { z-index: 3; transform: translateX(390px) scale(1); opacity: .96; }
-    .mobile-app-card.far-left { z-index: 1; transform: translateX(-650px) scale(.9); opacity: 0; pointer-events: none; }
-    .mobile-app-card.far-right { z-index: 1; transform: translateX(650px) scale(.9); opacity: 0; pointer-events: none; }
 
     .mobile-app-copy {
       flex: 1 1 60%;
@@ -741,6 +736,9 @@
     .mobile-app-card:not(.active) .mobile-app-media { display: none; }
     .mobile-app-card:not(.active) .mobile-app-card-title { margin: 0 0 12px; font-size: .92rem; }
 
+    .mobile-app-carousel { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-behavior: smooth; }
+    .mobile-app-carousel::-webkit-scrollbar { display: none; }
+
     .mobile-app-media {
       position: relative;
       flex: 0 0 38%;
@@ -754,13 +752,9 @@
     .mobile-app-media video { width: 100%; height: 100%; display: block; object-fit: contain; cursor: zoom-in; }
     @media (max-width: 640px) {
       .mobile-app-carousel { padding-top: 24px; }
-      .mobile-app-track { height: 300px; }
+      .mobile-app-track { height: 300px; gap: 10px; }
       .mobile-app-card { width: 142px; height: 250px; border-radius: 22px; }
-      .mobile-app-card.active { width: calc(100% - 60px); }
-      .mobile-app-card.prev { transform: translateX(-185px) scale(1); }
-      .mobile-app-card.next { transform: translateX(185px) scale(1); }
-      .mobile-app-card.far-left { transform: translateX(-130%) scale(.62); }
-      .mobile-app-card.far-right { transform: translateX(130%) scale(.62); }
+      .mobile-app-card.active { width: min(480px, calc(100vw - 92px)); flex-basis: min(480px, calc(100vw - 92px)); }
       .mobile-app-copy { padding: 20px 14px; }
       .mobile-app-card-title { font-size: .98rem; }
       .mobile-app-card-desc { font-size: .68rem; -webkit-line-clamp: 4; }
@@ -1980,17 +1974,13 @@
 
       function update() {
         cards.forEach((card, index) => {
-          card.classList.remove('active', 'prev', 'next', 'far-left', 'far-right');
-          const diff = (index - current + cards.length) % cards.length;
-          if (diff === 0) card.classList.add('active');
-          else if (diff === 1) card.classList.add('next');
-          else if (diff === cards.length - 1) card.classList.add('prev');
-          else card.classList.add(diff < cards.length / 2 ? 'far-right' : 'far-left');
-          card.setAttribute('aria-current', index === current ? 'true' : 'false');
+          const active = index === current;
+          card.classList.toggle('active', active);
+          card.setAttribute('aria-current', active ? 'true' : 'false');
           const toggle = card.querySelector('.mobile-app-toggle');
           const title = card.querySelector('.mobile-app-card-title').textContent.trim();
-          toggle.setAttribute('aria-expanded', index === current ? 'true' : 'false');
-          toggle.setAttribute('aria-label', index === current ? `Next app after ${title}` : `Expand ${title}`);
+          toggle.setAttribute('aria-expanded', active ? 'true' : 'false');
+          toggle.setAttribute('aria-label', active ? `Collapse ${title}` : `Expand ${title}`);
         });
 
         videos.forEach((video, index) => {
@@ -2000,14 +1990,17 @@
       }
 
       function goTo(index) {
-        current = (index + cards.length) % cards.length;
+        current = index;
         update();
+        if (current >= 0) {
+          requestAnimationFrame(() => cards[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }));
+        }
       }
 
       cards.forEach((card, index) => {
         card.querySelector('.mobile-app-toggle').addEventListener('click', event => {
           event.stopPropagation();
-          goTo(index === current ? current + 1 : index);
+          goTo(index === current ? -1 : index);
         });
         card.addEventListener('click', event => {
           if (event.target.closest('a')) return;
@@ -2033,14 +2026,6 @@
       });
       document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && lightbox.hidden) requestAnimationFrame(update);
-      });
-
-      let startX = 0;
-      const track = document.getElementById('mobileAppTrack');
-      track.addEventListener('touchstart', event => { startX = event.touches[0].clientX; }, { passive: true });
-      track.addEventListener('touchend', event => {
-        const diff = startX - event.changedTouches[0].clientX;
-        if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
       });
 
       update();
