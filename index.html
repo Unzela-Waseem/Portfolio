@@ -690,6 +690,7 @@
       gap: 12px;
       width: max-content;
       min-width: 100%;
+      padding-inline: 8px;
       height: 310px;
       touch-action: pan-x pan-y;
     }
@@ -793,8 +794,44 @@
       box-shadow: 0 5px 16px color-mix(in srgb, var(--app-accent) 20%, transparent);
     }
 
-    .mobile-app-carousel { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-behavior: smooth; }
-    .mobile-app-carousel::-webkit-scrollbar { display: none; }
+    .mobile-app-carousel {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scroll-behavior: smooth;
+      scroll-padding-inline: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: #a78bfa #ede9fe;
+      touch-action: pan-x pan-y;
+    }
+    .mobile-app-carousel::-webkit-scrollbar { height: 6px; }
+    .mobile-app-carousel::-webkit-scrollbar-track { background: #ede9fe; border-radius: 999px; }
+    .mobile-app-carousel::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #8b5cf6, #f97316); border-radius: 999px; }
+
+    .mobile-app-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin: 4px 4px 0;
+      color: #7c728b;
+      font-size: .72rem;
+    }
+    .mobile-app-navigation button {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid #ede9fe;
+      border-radius: 50%;
+      background: #fff;
+      color: #7c3aed;
+      box-shadow: 0 5px 14px rgba(124, 58, 237, .1);
+      cursor: pointer;
+      transition: transform .2s ease, color .2s ease, background .2s ease;
+    }
+    .mobile-app-navigation button:hover { transform: translateY(-2px); color: #fff; background: linear-gradient(135deg, #7c3aed, #f97316); }
 
     .mobile-app-media {
       position: relative;
@@ -1740,7 +1777,7 @@
     <h3
       class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 border-l-4 border-cyan-500 pl-3 sm:pl-4 animate-fade-in-up">
       Mobile Applications</h3>
-    <div class="mobile-app-carousel" id="mobileAppCarousel">
+    <div class="mobile-app-carousel" id="mobileAppCarousel" tabindex="0" aria-label="Mobile application cards. Swipe horizontally to see all apps.">
       <div class="mobile-app-track" id="mobileAppTrack">
         <article class="mobile-app-card" data-index="0">
           <div class="mobile-app-copy">
@@ -1797,6 +1834,11 @@
           <div class="mobile-app-media"><video muted playsinline loop preload="metadata" aria-label="Healthcare Management app demo"><source src="assets/Healthcare_system.mp4" type="video/mp4"></video></div>
         </article>
       </div>
+    </div>
+    <div class="mobile-app-navigation" aria-label="Mobile application navigation">
+      <span>Swipe to explore</span>
+      <button type="button" id="mobileAppPrev" aria-label="Previous mobile application"><i class="fas fa-arrow-left"></i></button>
+      <button type="button" id="mobileAppNext" aria-label="Next mobile application"><i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 
@@ -2031,6 +2073,15 @@
       const lightboxVideo = document.getElementById('lightboxVideo');
       let current = 1;
 
+      function scrollCardIntoView(index) {
+        if (index < 0 || !cards[index]) return;
+        const card = cards[index];
+        const cardLeft = card.getBoundingClientRect().left;
+        const carouselLeft = carousel.getBoundingClientRect().left;
+        const target = carousel.scrollLeft + cardLeft - carouselLeft - 16;
+        carousel.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      }
+
       function update() {
         cards.forEach((card, index) => {
           const active = index === current;
@@ -2052,9 +2103,18 @@
         current = index;
         update();
         if (current >= 0) {
-          requestAnimationFrame(() => cards[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }));
+          requestAnimationFrame(() => scrollCardIntoView(current));
+          // Re-align after the card finishes expanding so its video stays in view at the row's end.
+          window.setTimeout(() => scrollCardIntoView(current), 600);
         }
       }
+
+      document.getElementById('mobileAppPrev').addEventListener('click', () => {
+        goTo(current < 0 ? cards.length - 1 : (current - 1 + cards.length) % cards.length);
+      });
+      document.getElementById('mobileAppNext').addEventListener('click', () => {
+        goTo(current < 0 ? 0 : (current + 1) % cards.length);
+      });
 
       cards.forEach((card, index) => {
         card.querySelector('.mobile-app-toggle').addEventListener('click', event => {
