@@ -453,45 +453,57 @@
     .arc-card {
       position: absolute;
       width: 300px;
-      background: white;
+      isolation: isolate;
+      border: 1px solid rgba(148, 163, 184, .18);
+      border-top: 3px solid var(--web-accent, #8b5cf6);
+      background: linear-gradient(155deg, #fff 35%, var(--web-tint, #f5edff) 160%);
       border-radius: 20px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
       overflow: hidden;
       cursor: pointer;
-      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter .25s ease, border-color .3s ease;
       transform-origin: center bottom;
       flex-shrink: 0;
       user-select: none;
     }
 
+    .arc-card:nth-child(5n + 1) { --web-accent: #8b5cf6; --web-tint: #f5edff; }
+    .arc-card:nth-child(5n + 2) { --web-accent: #f97316; --web-tint: #fff1e7; }
+    .arc-card:nth-child(5n + 3) { --web-accent: #a855f7; --web-tint: #f7efff; }
+    .arc-card:nth-child(5n + 4) { --web-accent: #ec4899; --web-tint: #fff0f7; }
+    .arc-card:nth-child(5n + 5) { --web-accent: #7c3aed; --web-tint: #f2edff; }
+
+    .arc-card:hover { filter: brightness(1.04) saturate(1.05); }
+
     .arc-card.active {
       transform: translateX(0) scale(1) rotateY(0deg) translateZ(100px);
       z-index: 10;
-      box-shadow: 0 24px 60px rgba(124, 58, 237, 0.2);
+      border-color: color-mix(in srgb, var(--web-accent) 36%, white);
+      box-shadow: 0 24px 60px color-mix(in srgb, var(--web-accent) 22%, transparent);
     }
 
     .arc-card.prev-1 {
       transform: translateX(-280px) scale(0.88) rotateY(18deg) translateZ(0px);
       z-index: 7;
-      filter: brightness(0.88);
+      filter: brightness(0.96) saturate(.92);
     }
 
     .arc-card.prev-2 {
       transform: translateX(-500px) scale(0.74) rotateY(32deg) translateZ(-60px);
       z-index: 4;
-      filter: brightness(0.72);
+      filter: brightness(0.9) saturate(.85);
     }
 
     .arc-card.next-1 {
       transform: translateX(280px) scale(0.88) rotateY(-18deg) translateZ(0px);
       z-index: 7;
-      filter: brightness(0.88);
+      filter: brightness(0.96) saturate(.92);
     }
 
     .arc-card.next-2 {
       transform: translateX(500px) scale(0.74) rotateY(-32deg) translateZ(-60px);
       z-index: 4;
-      filter: brightness(0.72);
+      filter: brightness(0.9) saturate(.85);
     }
 
     .arc-card.hidden-left {
@@ -515,7 +527,10 @@
       background: #111;
       display: block;
       cursor: zoom-in;
+      transition: filter .35s ease;
     }
+
+    .arc-card.active:hover .arc-card-video { filter: saturate(1.08); }
 
     .video-lightbox {
       position: fixed;
@@ -555,6 +570,7 @@
 
     .arc-card-body {
       padding: 16px 18px 18px;
+      background: linear-gradient(145deg, rgba(255,255,255,.98), color-mix(in srgb, var(--web-tint) 45%, white));
     }
 
     .arc-card-badge {
@@ -586,11 +602,15 @@
 
     .arc-card-footer {
       padding: 10px 18px 14px;
-      border-top: 1px solid #f3f4f6;
+      border-top: 1px solid color-mix(in srgb, var(--web-accent) 12%, #f3f4f6);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: color-mix(in srgb, var(--web-tint) 28%, white);
     }
+
+    .arc-card-footer a { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+    .arc-card-footer a:hover { transform: translateY(-2px); box-shadow: 0 7px 18px color-mix(in srgb, var(--web-accent) 22%, transparent); }
 
     .arc-nav-btn {
       position: absolute;
