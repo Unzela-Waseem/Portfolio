@@ -432,6 +432,194 @@
       transform: scale(1.05);
     }
 
+    /* ── arc carousel ── */
+    .arc-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 60px 0 80px;
+    }
+
+    .arc-carousel-track {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      position: relative;
+      height: 440px;
+      touch-action: pan-y;
+    }
+
+    .arc-card {
+      position: absolute;
+      width: 300px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform-origin: center bottom;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .arc-card.active {
+      transform: translateX(0) scale(1) rotateY(0deg) translateZ(100px);
+      z-index: 10;
+      box-shadow: 0 24px 60px rgba(124, 58, 237, 0.2);
+    }
+
+    .arc-card.prev-1 {
+      transform: translateX(-280px) scale(0.88) rotateY(18deg) translateZ(0px);
+      z-index: 7;
+      filter: brightness(0.88);
+    }
+
+    .arc-card.prev-2 {
+      transform: translateX(-500px) scale(0.74) rotateY(32deg) translateZ(-60px);
+      z-index: 4;
+      filter: brightness(0.72);
+    }
+
+    .arc-card.next-1 {
+      transform: translateX(280px) scale(0.88) rotateY(-18deg) translateZ(0px);
+      z-index: 7;
+      filter: brightness(0.88);
+    }
+
+    .arc-card.next-2 {
+      transform: translateX(500px) scale(0.74) rotateY(-32deg) translateZ(-60px);
+      z-index: 4;
+      filter: brightness(0.72);
+    }
+
+    .arc-card.hidden-left {
+      transform: translateX(-700px) scale(0.6) rotateY(45deg) translateZ(-120px);
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .arc-card.hidden-right {
+      transform: translateX(700px) scale(0.6) rotateY(-45deg) translateZ(-120px);
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .arc-card-video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: contain;
+      background: #111;
+      display: block;
+    }
+
+    .arc-card-body {
+      padding: 16px 18px 18px;
+    }
+
+    .arc-card-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .arc-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e1e2f;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .arc-card-desc {
+      font-size: 0.75rem;
+      color: #6b7280;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .arc-card-footer {
+      padding: 10px 18px 14px;
+      border-top: 1px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .arc-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      background: white;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7c3aed;
+      font-size: 18px;
+      transition: all 0.25s ease;
+    }
+
+    .arc-nav-btn:hover {
+      background: linear-gradient(135deg, #7c3aed, #f97316);
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .arc-nav-left { left: 10px; }
+    .arc-nav-right { right: 10px; }
+
+    .arc-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .arc-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #d1d5db;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .arc-dot.active {
+      background: linear-gradient(135deg, #7c3aed, #f97316);
+      transform: scale(1.3);
+      width: 24px;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 640px) {
+      .arc-carousel-track {
+        height: 380px;
+      }
+      .arc-card {
+        width: 240px;
+      }
+      .arc-card.prev-1 { transform: translateX(-210px) scale(0.82) rotateY(18deg); }
+      .arc-card.prev-2 { transform: translateX(-380px) scale(0.65) rotateY(30deg); opacity: 0.6; }
+      .arc-card.next-1 { transform: translateX(210px) scale(0.82) rotateY(-18deg); }
+      .arc-card.next-2 { transform: translateX(380px) scale(0.65) rotateY(-30deg); opacity: 0.6; }
+    }
+
     /* ── contact ── */
     .contact-section {
       background: #fafaff;
@@ -1226,109 +1414,121 @@
     <h3
       class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 border-l-4 border-purple-500 pl-3 sm:pl-4 animate-fade-in-up">
       Web Applications</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
 
-      <!-- Fitness Tracker -->
-      <div class="flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-rose-500 hover-lift skill-item" style="animation-delay:0.05s">
-        <div class="relative w-full aspect-video bg-gray-900 overflow-hidden rounded-t-2xl">
-          <video class="w-full h-full object-contain video-zoom" controls muted>
+    <!-- ══ ARC CAROUSEL ══ -->
+    <div class="arc-carousel-wrapper" id="webAppCarousel">
+      <div class="arc-carousel-track" id="arcTrack">
+
+        <!-- Card 0: Fitness Tracker -->
+        <div class="arc-card" data-index="0">
+          <video class="arc-card-video" muted playsinline>
             <source src="assets/fitnesstrackervideo.mp4" type="video/mp4">
           </video>
-        </div>
-        <div class="flex flex-col flex-1 p-4 sm:p-5">
-          <span class="bg-rose-100 text-rose-700 px-2.5 py-1 rounded-full text-xs font-bold inline-block w-fit">MERN Stack</span>
-          <h3 class="text-base sm:text-lg font-bold text-gray-800 mt-2">Fitness Tracker</h3>
-          <p class="text-gray-500 text-xs sm:text-sm mt-1.5 flex-1 leading-relaxed">Complete MERN project with authentication, real-time updates, and responsive UI. Demonstrates full-cycle CRUD, JWT auth, and MongoDB integration.</p>
-          <div class="mt-4 pt-3 border-t border-gray-100">
-            <a href="https://github.com/Unzela-Waseem/FitnessTrackerWebApp" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105 shadow-sm">
+          <div class="arc-card-body">
+            <span class="arc-card-badge" style="background:#ffe4e6;color:#be123c;">MERN Stack</span>
+            <div class="arc-card-title">Fitness Tracker</div>
+            <div class="arc-card-desc">Complete MERN project with authentication, real-time updates, and responsive UI. JWT auth, MongoDB integration.</div>
+          </div>
+          <div class="arc-card-footer">
+            <a href="https://github.com/Unzela-Waseem/FitnessTrackerWebApp" target="_blank"
+              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
               <i class="fab fa-github"></i> Source Code
             </a>
           </div>
         </div>
-      </div>
 
-      <!-- Online Hotel Booking System -->
-      <div class="flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-emerald-500 hover-lift skill-item" style="animation-delay:0.1s">
-        <div class="relative w-full aspect-video bg-gray-900 overflow-hidden rounded-t-2xl">
-          <video class="w-full h-full object-contain video-zoom" controls muted>
+        <!-- Card 1: Hotel Booking -->
+        <div class="arc-card" data-index="1">
+          <video class="arc-card-video" muted playsinline>
             <source src="assets/hotel.mp4" type="video/mp4">
           </video>
-        </div>
-        <div class="flex flex-col flex-1 p-4 sm:p-5">
-          <span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-bold inline-block w-fit">MERN Stack</span>
-          <h3 class="text-base sm:text-lg font-bold text-gray-800 mt-2">Online Hotel Booking System</h3>
-          <p class="text-gray-500 text-xs sm:text-sm mt-1.5 flex-1 leading-relaxed">Full-stack MERN application for hotel room booking with secure user authentication, room management, booking history, availability tracking, and dedicated Admin and User dashboards.</p>
-          <div class="mt-4 pt-3 border-t border-gray-100">
-            <a href="https://github.com/Unzela-Waseem/online-hotel-booking-system" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105 shadow-sm">
+          <div class="arc-card-body">
+            <span class="arc-card-badge" style="background:#d1fae5;color:#065f46;">MERN Stack</span>
+            <div class="arc-card-title">Online Hotel Booking System</div>
+            <div class="arc-card-desc">Full-stack hotel booking app with user authentication, room management, booking history, and Admin dashboard.</div>
+          </div>
+          <div class="arc-card-footer">
+            <a href="https://github.com/Unzela-Waseem/online-hotel-booking-system" target="_blank"
+              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
               <i class="fab fa-github"></i> Source Code
             </a>
           </div>
         </div>
-      </div>
 
-      <!-- Lab Automation -->
-      <div class="flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-indigo-500 hover-lift skill-item" style="animation-delay:0.2s">
-        <div class="relative w-full aspect-video bg-black overflow-hidden rounded-t-2xl">
-          <video class="w-full h-full object-cover video-zoom" controls muted>
+        <!-- Card 2: Lab Automation -->
+        <div class="arc-card" data-index="2">
+          <video class="arc-card-video" muted playsinline style="object-fit:cover;">
             <source src="assets/labautomation.mp4" type="video/mp4">
           </video>
-        </div>
-        <div class="flex flex-col flex-1 p-4 sm:p-5">
-          <span class="bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full text-xs font-bold inline-block w-fit">PHP, MySQL</span>
-          <h3 class="text-base sm:text-lg font-bold text-gray-800 mt-2">Lab Automation</h3>
-          <p class="text-gray-500 text-xs sm:text-sm mt-1.5 flex-1 leading-relaxed">Workflow management system for lab testing and report generation, built using PHP and MySQL with a clean admin interface.</p>
-          <div class="mt-4 pt-3 border-t border-gray-100">
-            <a href="https://github.com/Unzela-Waseem" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105 shadow-sm">
+          <div class="arc-card-body">
+            <span class="arc-card-badge" style="background:#e0e7ff;color:#3730a3;">PHP, MySQL</span>
+            <div class="arc-card-title">Lab Automation</div>
+            <div class="arc-card-desc">Workflow management system for lab testing and report generation using PHP and MySQL with admin interface.</div>
+          </div>
+          <div class="arc-card-footer">
+            <a href="https://github.com/Unzela-Waseem" target="_blank"
+              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
               <i class="fab fa-github"></i> Source Code
             </a>
           </div>
         </div>
-      </div>
 
-      <!-- Bus Reservation Employee -->
-      <div class="flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-purple-500 hover-lift skill-item" style="animation-delay:0.3s">
-        <div class="relative w-full aspect-video bg-black overflow-hidden rounded-t-2xl">
-          <video class="w-full h-full object-contain video-zoom" controls muted>
+        <!-- Card 3: Bus Reservation Employee -->
+        <div class="arc-card" data-index="3">
+          <video class="arc-card-video" muted playsinline>
             <source src="assets/media2.mp4" type="video/mp4">
           </video>
-        </div>
-        <div class="flex flex-col flex-1 p-4 sm:p-5">
-          <span class="bg-purple-100 text-purple-700 px-2.5 py-1 rounded-full text-xs font-bold inline-block w-fit">.NET, SQL Server</span>
-          <h3 class="text-base sm:text-lg font-bold text-gray-800 mt-2">Bus Reservation (Employee)</h3>
-          <p class="text-gray-500 text-xs sm:text-sm mt-1.5 flex-1 leading-relaxed">Robust ticket booking platform handling complex bus schedules and seat management, built using .NET and SQL Server.</p>
-          <div class="mt-4 pt-3 border-t border-gray-100">
-            <a href="https://github.com/Unzela-Waseem/Online-Bus-Ticket-Reseveration-System" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105 shadow-sm">
+          <div class="arc-card-body">
+            <span class="arc-card-badge" style="background:#f3e8ff;color:#6b21a8;">.NET, SQL Server</span>
+            <div class="arc-card-title">Bus Reservation (Employee)</div>
+            <div class="arc-card-desc">Ticket booking platform handling complex bus schedules and seat management with .NET and SQL Server.</div>
+          </div>
+          <div class="arc-card-footer">
+            <a href="https://github.com/Unzela-Waseem/Online-Bus-Ticket-Reseveration-System" target="_blank"
+              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
               <i class="fab fa-github"></i> Source Code
             </a>
           </div>
         </div>
-      </div>
 
-      <!-- Bus Reservation Admin -->
-      <div class="flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-orange-500 hover-lift skill-item" style="animation-delay:0.4s">
-        <div class="relative w-full aspect-video bg-black overflow-hidden rounded-t-2xl">
-          <video class="w-full h-full object-contain video-zoom" controls muted>
+        <!-- Card 4: Bus Reservation Admin -->
+        <div class="arc-card" data-index="4">
+          <video class="arc-card-video" muted playsinline>
             <source src="assets/media1.mp4" type="video/mp4">
           </video>
-        </div>
-        <div class="flex flex-col flex-1 p-4 sm:p-5">
-          <span class="bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full text-xs font-bold inline-block w-fit">.NET, SQL Server</span>
-          <h3 class="text-base sm:text-lg font-bold text-gray-800 mt-2">Bus Reservation (Admin)</h3>
-          <p class="text-gray-500 text-xs sm:text-sm mt-1.5 flex-1 leading-relaxed">Comprehensive admin dashboard for managing bus inventory, routes, and bookings, built using .NET and SQL Server.</p>
-          <div class="mt-4 pt-3 border-t border-gray-100">
-            <a href="https://github.com/Unzela-Waseem/Online-Bus-Ticket-Reseveration-System" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105 shadow-sm">
+          <div class="arc-card-body">
+            <span class="arc-card-badge" style="background:#fff7ed;color:#c2410c;">.NET, SQL Server</span>
+            <div class="arc-card-title">Bus Reservation (Admin)</div>
+            <div class="arc-card-desc">Comprehensive admin dashboard for managing bus inventory, routes, and bookings with .NET and SQL Server.</div>
+          </div>
+          <div class="arc-card-footer">
+            <a href="https://github.com/Unzela-Waseem/Online-Bus-Ticket-Reseveration-System" target="_blank"
+              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
               <i class="fab fa-github"></i> Source Code
             </a>
           </div>
         </div>
+
       </div>
 
+      <!-- Nav buttons -->
+      <button class="arc-nav-btn arc-nav-left" id="arcPrev" aria-label="Previous">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="arc-nav-btn arc-nav-right" id="arcNext" aria-label="Next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <!-- Dots -->
+      <div class="arc-dots" id="arcDots">
+        <div class="arc-dot active" data-idx="0"></div>
+        <div class="arc-dot" data-idx="1"></div>
+        <div class="arc-dot" data-idx="2"></div>
+        <div class="arc-dot" data-idx="3"></div>
+        <div class="arc-dot" data-idx="4"></div>
+      </div>
     </div>
+
     <h3
       class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 border-l-4 border-cyan-500 pl-3 sm:pl-4 animate-fade-in-up">
       Mobile Applications</h3>
@@ -1557,6 +1757,76 @@
   </footer>
 
   <script>
+    // ── arc carousel ──
+    (function () {
+      const cards = Array.from(document.querySelectorAll('.arc-card'));
+      const dots  = Array.from(document.querySelectorAll('.arc-dot'));
+      const total = cards.length;
+      let current = 0;
+
+      const CLASSES = ['hidden-left', 'prev-2', 'prev-1', 'active', 'next-1', 'next-2', 'hidden-right'];
+
+      function getPositionClass(cardIndex, activeIndex) {
+        const diff = cardIndex - activeIndex;
+        if (diff === 0)  return 'active';
+        if (diff === -1) return 'prev-1';
+        if (diff === -2) return 'prev-2';
+        if (diff === 1)  return 'next-1';
+        if (diff === 2)  return 'next-2';
+        return diff < 0 ? 'hidden-left' : 'hidden-right';
+      }
+
+      function update() {
+        cards.forEach((card, i) => {
+          CLASSES.forEach(c => card.classList.remove(c));
+          card.classList.add(getPositionClass(i, current));
+        });
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+
+        // pause all videos, play only active
+        cards.forEach((card, i) => {
+          const vid = card.querySelector('video');
+          if (!vid) return;
+          if (i === current) {
+            vid.play().catch(() => {});
+          } else {
+            vid.pause();
+          }
+        });
+      }
+
+      function goTo(idx) {
+        current = (idx + total) % total;
+        update();
+      }
+
+      document.getElementById('arcPrev').addEventListener('click', () => goTo(current - 1));
+      document.getElementById('arcNext').addEventListener('click', () => goTo(current + 1));
+
+      dots.forEach(dot => dot.addEventListener('click', () => goTo(+dot.dataset.idx)));
+
+      // click side cards to focus
+      cards.forEach((card, i) => card.addEventListener('click', () => { if (i !== current) goTo(i); }));
+
+      // keyboard
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+      });
+
+      // touch swipe
+      let startX = 0;
+      const track = document.getElementById('arcTrack');
+      track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+      });
+
+      // init
+      update();
+    })();
+
     // ── mobile menu ──
     function openMenu() { document.getElementById('mobileMenu').style.right = '0'; }
 
